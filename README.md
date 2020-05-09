@@ -50,6 +50,13 @@ After the internet connection is verified it will begin playing the first statio
 The current model uses 3 buttons: Next, Prev, and Pause.
 
 When a station begins playing the name of the station will be displayed on the LCD display for 5 seconds then the backlight will turn off and blank.
+
+## Finding Stations
+To create custom stations a live audio stream must be found.
+
+Either add the name and station to the stations.csv or make your own and change the radio.py file.
+
+After changing the stations file the new station will not be avalible until after the Pi is restarted.
 ## Credit
 Initial Script Work-[Elijah1111](https://github.com/Elijah1111)
 
