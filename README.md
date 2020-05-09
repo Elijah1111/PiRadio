@@ -22,16 +22,24 @@ Make the radio.py executable by all:
 sudo chmod +x radio.py 
 ```
 
+
 Move the service file to `/etc/systemd/system`
 ```
 mv piRadio.service /etc/systemd/system
 ``` 
+
 Set up the service using `systemctl`
 ```
 sudo systemctl daemon-reload 
 sudo systemctl enable piRadio.service
 ```
+This will reload the services and enable the piRadio to run on startup
 
+Move the lcdLib.py file to the location you keep your Python packages
+
+Run `python3 -m site --user-site` to get the path
+
+Then reboot it should be ready to go
 
 
 ## Usage
