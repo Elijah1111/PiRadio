@@ -42,8 +42,14 @@ Run `python3 -m site --user-site` to get the path
 Then reboot it should be ready to go
 
 
-## Usage
+## Usage/Behavior
+The piRadio service will run after the Pi is conected to the internet
 
+After the internet connection is verified it will begin playing the first station stored.
+
+The current model uses 3 buttons: Next, Prev, and Pause.
+
+When a station begins playing the name of the station will be displayed on the LCD display for 5 seconds then the backlight will turn off and blank.
 ## Credit
 Initial Script Work-[Elijah1111](https://github.com/Elijah1111)
 
