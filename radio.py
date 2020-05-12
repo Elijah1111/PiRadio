@@ -89,14 +89,14 @@ while(True): #TODO Implement buttons
     if(gp.input(pausePin)):
         pause = not pause
         dum = True
-        player.set_pause(pause)
+        player.set_pause(int(pause))
         tmp = stations[i][0]
         if(pause):
             write(lcd,"Paused")
             playing()
         else:
             write(lcd,tmp)#write the name
-            playing(name)
+            playing(tmp)
         
         period = time.time()
         time.sleep(0.5)
