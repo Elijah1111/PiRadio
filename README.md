@@ -1,5 +1,5 @@
 # PiRadio
-A Raspberry Pi internet radio service using VLC
+A Raspberry Pi internet radio service using VLC and a web service at Flask
 
 This was designed to work as a service in the Raspberry Pi.
 
