@@ -5,6 +5,6 @@ Description=Runs the Raspberry Pi Radio
 Wants=network-online.target
 After=network.target network-online.target
 User=root
-ExecStart=/home/pi/Documents/radio/web.py
+ExecStart=PATH/web.py
 [Install]
 WantedBy=multi-user.target
