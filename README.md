@@ -3,11 +3,16 @@ A Raspberry Pi internet radio service using VLC
 
 This was designed to work as a service in the Raspberry Pi.
 
-The radio takes in responses from the GPIO as inputs and displays to an external LCD screen
+The radio takes in responses from the GPIO as inputs and displays to an external LCD screen. the service also runs a web page that controls the radio at the Pi's IP adress
+
 ## Dependencies
 [VLC For Python](https://wiki.videolan.org/Python_bindings/)
 ```
-pip3 install python-vlc
+sudo pip3 install python-vlc
+```
+[Flask](https://flask.palletsprojects.com/en/1.1.x/)
+```
+sudo pip3 install flask
 ```
 I2C Tools (For Finding the Address of the LCD)
 ```
@@ -25,9 +30,9 @@ Edit the sname in radio.py if you want a custom station list
 Edit the I2CBUS and ADDRESS in lcdLib.py to match your pi/lcd
 Check you lcd Address with `i2cdetect -y 1`
 
-Make the radio.py executable by all:
+Make radio.py and web.py executable by root:
 ```
-sudo chmod +x radio.py 
+sudo chmod +x radio.py web.py
 ```
 
 Move the lcdLib.py file to the location you keep your Python packages
