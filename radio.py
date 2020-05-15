@@ -1,130 +1,124 @@
 #!/usr/bin/env python3
-
-
-import lcdLib as LCD
-import vlc
-import RPi.GPIO as gp
 import time
-import os
-
-
-Path = "/home/pi/Documents/radio/"#TODO
-sname = "stations.csv"#TODO
-
-
-def playing(s="Paused"):#Write the currently playing station
-    with open(Path+"playing.txt",'w') as f:
-        print(s, file=f)
-        f.close()
-
-
-def write(lcd=LCD.lcd(),s=''):#write to the lcd
+import vlc
+from threading import Thread
+import RPi.GPIO as gp
+import lcdLib as LCD
+class Radio(Thread):
+    Path = "/home/pi/Documents/radio/"#TODO
+    sname = "stations.csv"#TODO
     
-    l1 = ''#line 1
-    l2 = ''#line 2 
-    if(len(s)>16):
-        l1=s[:16]
-        l2=s[16:]
-    else:
-        l1=s
-    lcd.backlight(1)#turn on the backlight
-    lcd.lcd_clear()
-    lcd.lcd_display_string(l1,1)
-    lcd.lcd_display_string(l2,2)
-
-
-nextPin = 6
-prevPin = 12 
-pausePin = 16
-
-
-
-gp.setmode(gp.BCM)
-gp.setup(nextPin,gp.IN, pull_up_down=gp.PUD_DOWN)
-gp.setup(prevPin,gp.IN, pull_up_down=gp.PUD_DOWN)
-gp.setup(pausePin,gp.IN, pull_up_down=gp.PUD_DOWN)
-
-lcd = LCD.lcd()
-
-write(lcd,"Loading Stations")
-stations = []
-
-with open(Path+sname, 'r') as f:#open the stations file
-    lines = f.readlines()
-    for i in lines:
-        tmp = i.split(',') #its a csv file
-        tmpy = (tmp[0],tmp[1].rstrip())
-        stations.append(tmpy)
-    f.close()
-
-write(lcd,"Waiting For Connection")
-while(True):#verify that the internet is conected properly
-    internet = os.system("ping -c 1 google.com")
-    if(internet == 0):
-        break
-
-
-start = stations[0]
-
-print("Playing %s"%start[0])
-write(lcd,start[0])
-playing(start[0])
-
-player = vlc.MediaPlayer(start[1].rstrip())
-player.play()
-
-period = time.time()
-pause = False
-dum = True
-i=0
-while(True): #TODO Implement buttons
-    if(int(time.time()-period) >= 5 and dum):#clear screen every 5 seconds
-        write(lcd,'')
-        lcd.backlight(0)
-        dum = False
-
-    flag = True
-    der  = 1#derection
+    lcState = True
+    pState = True 
     
-    if(gp.input(pausePin)):
-        pause = not pause
-        dum = True
-        player.set_pause(int(pause))
-        tmp = stations[i][0]
-        if(pause):
-            write(lcd,"Paused")
-            playing()
-        else:
-            write(lcd,tmp)#write the name
-            playing(tmp)
+    i = 0
+    period = 0.0
+    stations = []
+    cPlay = ""
+
+    player = vlc.MediaPlayer()
+    lcd = LCD.lcd()
+    
+    
+    nextPin = 6
+    prevPin = 12 
+    pausePin = 16
+    gp.setmode(gp.BCM)
+    gp.setup(nextPin,gp.IN, pull_up_down=gp.PUD_DOWN)
+    gp.setup(prevPin,gp.IN, pull_up_down=gp.PUD_DOWN)
+    gp.setup(pausePin,gp.IN, pull_up_down=gp.PUD_DOWN)
+    
+    
+    
+    def __init__(self,i=0):
         
-        period = time.time()
-        time.sleep(0.5)
-
-    if(gp.input(prevPin)):
-        der = -1
-    elif(gp.input(nextPin) == 0):
-        flag = False
+        Thread.__init__(self)
+        print("\n\n HELLLO DOLLY \n\n")
+        
+        self.i = i
+        self.write("Loading Stations")
+        self.stations = self.statLoad()
+        self.Play()
     
-    if(flag):
-        dum = True
-        i = i + der
-        length = len(stations)-1
-        if(i < 0):
-            i = length
-        elif(i > length):
-            i = 0
+    def write(self, s=''):#write to the lcd
+        l1 = ''#line 1
+        l2 = ''#line 2
+    
+        if(len(s)>16):
+            l1=s[:16]
+            l2=s[16:]
+        else:
+            l1=s
+        self.lcd.lcd_clear()
+        self.lcd.lcd_display_string(l1,1)
+        self.lcd.lcd_display_string(l2,2)
+        if (s == ""):
+            self.lcd.backlight(0)#turn off the backlight
+            self.lcState=False
+        else:
+            self.lcState=True
 
-        tmp = stations[i]
-        print("Playing %s"%tmp[0])
-        write(lcd,tmp[0])
-        playing(tmp[0])
+    def Play(self, der=0):
+        self.i = self.i + der
+        length = len(self.stations)-1
+        if(self.i < 0):
+            self.i = length
+        elif(self.i > length):
+            self.i = 0
 
-        player.stop()
-        stat = tmp[1].rstrip()
-        player = vlc.MediaPlayer(stat)
-        player.play()
-        period = time.time()
-        time.sleep(0.5)
+        tmp = self.stations[self.i]
+        self.cPlay = tmp[0]
+        print("Playing %s"%self.cPlay)
+        self.write(self.cPlay)
+        self.period = time.time()
+        try:
+            self.player.stop()
+            self.player = vlc.MediaPlayer(tmp[1])
+            self.player.play()
+            return 0
+        except:
+            print("ERROR PLAYING")
+            return -1
 
+    def statLoad(self):#return stations
+        stations = []
+        with open(self.Path+self.sname, 'r') as f:#open the stations file
+            lines = f.readlines()
+            for i in lines:
+                tmp = i.split(',') #its a csv file
+                tmpy = (tmp[0],tmp[1].rstrip())
+                stations.append(tmpy)
+            f.close()
+        return stations
 
+    def pause(self):
+        tmp = self.stations[self.i][0]
+        self.period = time.time()
+        if(self.pState):
+            self.write("Paused")
+        else:
+            self.write(tmp)#write the name
+        
+        temp = self.pState
+        self.player.set_pause(int(temp))
+        self.pState = not temp
+
+    def run(self):
+        while(True):
+            if(int(time.time()-self.period) >= 5 and self.lcState):#clear screen every 5 seconds if screen is on
+                self.write()
+            
+            flag = False
+            der  = 1#derection ha ha dir is keyword
+            if(gp.input(self.pausePin)):
+                self.pause()
+                time.sleep(0.5)
+            elif(gp.input(self.prevPin)):
+                der = -1
+                flag = True
+            elif(gp.input(self.nextPin)):
+                flag = True
+
+            if(flag):
+                self.Play(der)
+                time.sleep(0.5)
