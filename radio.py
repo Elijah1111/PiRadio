@@ -33,9 +33,8 @@ class Radio(Thread):
     def __init__(self,i=0):
         
         Thread.__init__(self)
-        print("\n\n HELLLO DOLLY \n\n")
         
-        self.i = i
+        self.i = i#i is for keeping track of the position in the queue of stations
         self.write("Loading Stations")
         self.stations = self.statLoad()
         self.Play()
@@ -44,7 +43,7 @@ class Radio(Thread):
         l1 = ''#line 1
         l2 = ''#line 2
     
-        if(len(s)>16):
+        if(len(s)>16):#the display is 16 chars per line
             l1=s[:16]
             l2=s[16:]
         else:
