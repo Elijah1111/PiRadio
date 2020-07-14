@@ -104,7 +104,7 @@ class Radio(Thread):
 
     def run(self):
         while(True):
-            if(int(time.time()-self.period) >= 5 and self.lcState):#clear screen every 5 seconds if screen is on
+            if(self.lcState and int(time.time()-self.period) >= 5 ):#clear screen every 5 seconds if screen is on
                 self.write()
             
             flag = False
