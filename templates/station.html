@@ -15,6 +15,9 @@
 		<ul>
 		{% for i in stat %}
 		<li><a href={{i[1]}}>{{i[0]}}</a></li>
+		<form action="#" method="post">
+			<button type="submit" name="station" value={{stat.index(i)}}> Play</button>
+		</form>
 		{% endfor%}
 		</ul>
 		<br>	

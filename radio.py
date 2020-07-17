@@ -59,14 +59,16 @@ class Radio(Thread):
         else:
             self.lcState=True
 
-    def Play(self, der=0):
-        self.i = self.i + der
-        length = len(self.stations)-1
-        if(self.i < 0):
-            self.i = length
-        elif(self.i > length):
-            self.i = 0
-
+    def Play(self, der=0, i=-1):
+        if i == -1:#der specified
+            self.i = self.i + der
+            length = len(self.stations)-1
+            if(self.i < 0):
+                self.i = length
+            elif(self.i > length):
+                self.i = 0
+        else:#specified a station
+            self.i = i
         tmp = self.stations[self.i]
         self.cPlay = tmp[0]
         print("Playing %s"%self.cPlay)

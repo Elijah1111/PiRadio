@@ -31,8 +31,10 @@ def home():
 
     return render_template("radio.html",playing=rad.cPlay)
 
-@web.route("/station.html")
+@web.route("/station.html", methods=["POST","GET"])
 def stations():
+    if (request.method == "POST"):
+        rad.Play(i=int(request.form["station"]))  
     return render_template("station.html",stat=rad.stations)
 # run the application
 if __name__ == "__main__":
