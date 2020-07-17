@@ -9,11 +9,13 @@
 	    <center>
 	    	<h1>Loaded PiStations</h1>
 		
-		<hr/>
+		<hr>
+		<ul>
 		{% for i in stat %}
-			<p>{{i}}</p>
+		<li><a href={{i[1]}}>{{i[0]}}</a></li>
 		{% endfor%}
-		<br/>	
+		</ul>
+		<br>	
 		
 
 		<p>

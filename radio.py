@@ -3,6 +3,7 @@ import time
 import vlc
 from threading import Thread
 import RPi.GPIO as gp
+print("HELLO")
 import lcdLib as LCD
 class Radio(Thread):
     Path = "/home/pi/Documents/radio/"#TODO
@@ -33,8 +34,9 @@ class Radio(Thread):
     def __init__(self,i=0):
         
         Thread.__init__(self)
+        print("\n\n HELLLO DOLLY \n\n")
         
-        self.i = i#i is for keeping track of the position in the queue of stations
+        self.i = i
         self.write("Loading Stations")
         self.stations = self.statLoad()
         self.Play()
@@ -43,7 +45,7 @@ class Radio(Thread):
         l1 = ''#line 1
         l2 = ''#line 2
     
-        if(len(s)>16):#the display is 16 chars per line
+        if(len(s)>16):
             l1=s[:16]
             l2=s[16:]
         else:
@@ -104,7 +106,7 @@ class Radio(Thread):
 
     def run(self):
         while(True):
-            if(self.lcState and int(time.time()-self.period) >= 5 ):#clear screen every 5 seconds if screen is on
+            if(int(time.time()-self.period) >= 5 and self.lcState):#clear screen every 5 seconds if screen is on
                 self.write()
             
             flag = False
