@@ -36,6 +36,20 @@ def stations():
     if (request.method == "POST"):
         rad.Play(i=int(request.form["station"]))  
     return render_template("station.html",stat=rad.stations)
+
+@web.route("/volchange")
+def vol():
+    if "vol" in request.args:#Volume exists in dict of arguments
+        volume =  int(request.args["vol"])
+        print(volume)
+        rad.vol(volume)
+
+    else:
+        print("NO VOLUME")
+    return home()
+
+
+
 # run the application
 if __name__ == "__main__":
     web.run(host="0.0.0.0", port="80", debug=False)

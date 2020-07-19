@@ -3,7 +3,6 @@ import time
 import vlc
 from threading import Thread
 import RPi.GPIO as gp
-print("HELLO")
 import lcdLib as LCD
 class Radio(Thread):
     Path = "/home/pi/Documents/radio/"#TODO
@@ -34,7 +33,6 @@ class Radio(Thread):
     def __init__(self,i=0):
         
         Thread.__init__(self)
-        print("\n\n HELLLO DOLLY \n\n")
         
         self.i = i
         self.write("Loading Stations")
@@ -70,11 +68,13 @@ class Radio(Thread):
         else:#specified a station
             self.i = i
         tmp = self.stations[self.i]
+        
         self.cPlay = tmp[0]
         print("Playing %s"%self.cPlay)
         self.write(self.cPlay)
         self.period = time.time()
-        try:
+
+        try:#try to play station
             self.player.stop()
             self.player = vlc.MediaPlayer(tmp[1])
             self.player.play()
@@ -83,7 +83,7 @@ class Radio(Thread):
             print("ERROR PLAYING")
             return -1
 
-    def statLoad(self):#return stations
+    def statLoad(self):#Save stations
         stations = []
         with open(self.Path+self.sname, 'r') as f:#open the stations file
             lines = f.readlines()
@@ -106,9 +106,13 @@ class Radio(Thread):
         self.player.set_pause(int(temp))
         self.pState = not temp
 
+
+    def vol(self,vol):#Change the volume
+        self.player.audio_set_volume(vol)
+
     def run(self):
         while(True):
-            if(int(time.time()-self.period) >= 5 and self.lcState):#clear screen every 5 seconds if screen is on
+            if(self.lcState and (int(time.time())-self.period) >= 5):#clear screen every 5 seconds if screen is on
                 self.write()
             
             flag = False
@@ -122,6 +126,7 @@ class Radio(Thread):
             elif(gp.input(self.nextPin)):
                 flag = True
 
-            if(flag):
+
+            if(flag):#play a diffrent staion
                 self.Play(der)
                 time.sleep(0.5)

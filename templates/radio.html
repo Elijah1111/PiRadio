@@ -4,6 +4,19 @@
 	    <title>
 		    PiRadio Home
 	    </title>
+
+	<script>
+	function changevol() {	
+			var volumeurl = "/volchange?vol="+document.getElementById("vol").value;
+			var xmlHttp = new XMLHttpRequest();
+    			xmlHttp.onreadystatechange = function() { 
+        		if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+				callback(xmlHttp.responseText);
+			}
+			xmlHttp.open("GET", volumeurl, true); // true for asynchronous 
+			xmlHttp.send(null);
+		}
+	</script>
     </head>
     <body>
 	    <center>
@@ -11,17 +24,16 @@
 		<p>{{playing}}</p>
 		<p></p>
 		<form action="#" method="post">
-		
 		<button type="submit" name="state" value="-1"> Previous</button>
 		<button type="submit" name="state" value="0">Pause</button>
-		<button type="submit" name="state" value="1">Next</button>
-		
+		<button type="submit" name="state" value="1">Next</button>	
 		</form>
+		<div class="slidecontainer">
+  			<input type="range" min="1" max="100" value="100" class="slider" onchange="changevol()" id="vol">
+		</div>	
 		
 
 		<p>Load and Play Stations <a href="./station.html">Here</a></p>
-		
-
 		<hr/>
 	    	<p>
 	    	PiRadio is open source and available on <a href="https://github.com/Elijah1111/PiRadio">GitHub</a>
