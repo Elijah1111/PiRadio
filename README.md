@@ -72,6 +72,8 @@ After changing the stations file the new station will not be avalible until afte
 ## Credit
 Initial Script Work-[Elijah1111](https://github.com/Elijah1111)
 
+Volume and Web Control-[Jacob Hall](https://github.com/jacobwhall)
+
 LCD Library-[DenisFromHR](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d)
 
 Some of the radio stations are independent broadcasters and survive off of donations. If you enjoy the sations content please consider donating at the respective stations webpage.
