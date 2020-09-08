@@ -1,7 +1,7 @@
 # PiRadio
 A Raspberry Pi internet radio service using VLC and the web service Flask
 
-This was designed to work as a service in the Raspberry Pi.
+This was designed to work as a service on a Raspberry Pi.
 
 The radio takes in responses from the GPIO as inputs and displays to an external LCD screen. The service also runs a web page that controls the radio at the Pi's IP adress
 
