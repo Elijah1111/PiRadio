@@ -29,7 +29,7 @@ def home():
             rad.Play(1)
             print("Next")
 
-    return render_template("radio.html",playing=rad.cPlay)
+    return render_template("radio.html",playing=rad.cPlay,volume=rad.volume)
 
 @web.route("/station.html", methods=["POST","GET"])
 def stations():
