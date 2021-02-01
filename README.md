@@ -68,7 +68,7 @@ To create custom stations a live audio stream must be found.
 
 Either add the name and station to the stations.csv or make your own and change the radio.py file.
 
-After changing the stations file the new station will not be avalible until after the Pi is restarted.
+After changing the stations file the new station will not be avalible until after the Pi or the service is restarted.
 ## Credit
 Initial Script Work-[Elijah1111](https://github.com/Elijah1111)
 
