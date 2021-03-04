@@ -70,10 +70,10 @@ Either add the name and station to the stations.csv or make your own and change 
 
 After changing the stations file the new station will not be avalible until after the Pi or the service is restarted.
 ## Credit
-Initial Script Work-[Elijah1111](https://github.com/Elijah1111)
+Initial Script Work-@[Elijah1111](https://github.com/Elijah1111)
 
-Volume and Web Assistance-[Jacob Hall](https://github.com/jacobwhall)
+Volume and Web Assistance-@[Jacob Hall](https://github.com/jacobwhall)
 
-LCD Library-[DenisFromHR](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d)
+LCD Library-@[DenisFromHR](https://gist.github.com/DenisFromHR/cc863375a6e19dce359d)
 
 Some of the radio stations are independent broadcasters and survive off of donations. If you enjoy the sations content please consider donating at the respective stations webpage.
