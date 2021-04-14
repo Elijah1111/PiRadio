@@ -19,33 +19,33 @@ I2C Tools (For Finding the Address of the LCD)
 sudo apt-get install i2c-tools
 ```
 ## Setup
-Download and install the dependencies
+* Download and install the dependencies
 
-Download the files to a location you would like to have the project
+* Download the files to a location you would like to have the project
 
-Edit the Path in radio.py and piRadio.service to the absolute path of the project.
+* Edit the Path in radio.py and piRadio.service to the absolute path of the project.
 
-Edit the sname in radio.py if you want a custom station list
+* Edit the sname in radio.py if you want a custom station list
 
-Edit the I2CBUS and ADDRESS in lcdLib.py to match your pi/lcd
+* Edit the I2CBUS and ADDRESS in lcdLib.py to match your pi/lcd
 Check you lcd Address with `i2cdetect -y 1`
 
-Make radio.py and web.py executable:
+* Make radio.py and web.py executable:
 ```
 sudo chmod +x radio.py web.py
 ```
 
-Move the lcdLib.py file to the location you keep your Python packages
+* Move the lcdLib.py file to the location you keep your Python packages
 
 Run `python3 -m site --user-site` to get the path
 
 
-Move the service file to `/etc/systemd/system`
+* Move the service file to `/etc/systemd/system`
 ```
 mv piRadio.service /etc/systemd/system
 ``` 
 
-Set up the service using `systemctl`
+* Set up the service using `systemctl`
 ```
 sudo systemctl daemon-reload 
 sudo systemctl enable piRadio.service
